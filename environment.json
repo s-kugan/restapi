@@ -1,0 +1,15 @@
+{
+	"id": "0d7845c7-d409-41c5-9629-5762f9f7a985",
+	"name": "Environment-Variables",
+	"values": [
+		{
+			"key": "localhost",
+			"value": "http://localhost:8080/",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2024-03-16T16:55:05.711Z",
+	"_postman_exported_using": "Postman/10.23.10"
+}

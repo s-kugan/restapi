@@ -1,0 +1,296 @@
+{
+	"info": {
+		"_postman_id": "157d7b9b-fd67-4854-a8fb-b40de56e59ca",
+		"name": "JIRA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32262043"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login\", function () {\r",
+							"    let  response = pm.response.json();\r",
+							"    console.log('response',response);\r",
+							"    let sessionValue = response.session.value;\r",
+							"    console.log('sessionValue',sessionValue);\r",
+							"    pm.globals.set(\"valueofsession\", sessionValue);\r",
+							"   \r",
+							"});\r",
+							"\r",
+							" pm.test(\"Status code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"sivakugan.siva\",\r\n    \"password\": \"Iyapan4912@007Siva\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}rest/auth/1/session",
+					"host": [
+						"{{localhost}}rest"
+					],
+					"path": [
+						"auth",
+						"1",
+						"session"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create-Issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create an issue\", function () {\r",
+							"    let  response = pm.response.json();\r",
+							"    console.log('response',response);\r",
+							"    let issueID = response.id;\r",
+							"    console.log('IDOfIssue',issueID);\r",
+							"    pm.globals.set(\"IDOfIssue\", issueID);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"        pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{valueofsession}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"key\":\"BUD\"\r\n        },\r\n        \"summary\": \"Unable to Register\",\r\n        \"description\":\"Unable to Register\",\r\n        \"issuetype\": {\r\n            \"name\": \"Bug\"\r\n        },\r\n        \"environment\": \"Staging\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}rest/api/2/issue",
+					"host": [
+						"{{localhost}}rest"
+					],
+					"path": [
+						"api",
+						"2",
+						"issue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add-Comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create a comment\", function () {\r",
+							"    let  response = pm.response.json();\r",
+							"    console.log('response',response);\r",
+							"    let commentID = response.id;\r",
+							"    console.log('IDOfComment',commentID);\r",
+							"    pm.globals.set(\"IDOfComment\", commentID);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"        pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{valueofsession}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"body\": \"More information is required\",\r\n    \"visibility\": {\r\n        \"type\": \"role\",\r\n        \"value\": \"Administrators\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}rest/api/2/issue/{{IDOfIssue}}/comment",
+					"host": [
+						"{{localhost}}rest"
+					],
+					"path": [
+						"api",
+						"2",
+						"issue",
+						"{{IDOfIssue}}",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update-Comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{valueofsession}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"body\": \"It will be fixed by next sprint\",\r\n    \"visibility\": {\r\n        \"type\": \"role\",\r\n        \"value\": \"Administrators\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}rest/api/2/issue/{{IDOfIssue}}/comment/{{IDOfComment}}",
+					"host": [
+						"{{localhost}}rest"
+					],
+					"path": [
+						"api",
+						"2",
+						"issue",
+						"{{IDOfIssue}}",
+						"comment",
+						"{{IDOfComment}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete-Issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"        pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{valueofsession}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"key\":\"BUD\"\r\n        },\r\n        \"summary\": \"Unable to add a address with unit no\",\r\n        \"description\":\"Unable to add a address with unit no\",\r\n        \"issuetype\": {\r\n            \"name\": \"Bug\"\r\n        },\r\n        \"environment\": \"Staging\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}rest/api/2/issue/{{IDOfIssue}}",
+					"host": [
+						"{{localhost}}rest"
+					],
+					"path": [
+						"api",
+						"2",
+						"issue",
+						"{{IDOfIssue}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
